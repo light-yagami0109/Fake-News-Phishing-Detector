@@ -7,29 +7,25 @@ def create_app():
     Application Factory Pattern.
     Instantiates and configures the Flask application.
     """
-    # 1. Initialize the Flask application
     app = Flask(__name__)
     
-    # 2. Enable CORS (Cross-Origin Resource Sharing)
-    # This is CRITICAL. Without it, the browser will block our frontend (HTML)
-    # from talking to our backend (Python) because they are running on different ports.
+    # Enable Cross-Origin Resource Sharing
     CORS(app)
     
-    # 3. Register the API endpoints we created in routes.py
-    # We add a URL prefix, so every route starts with /api (e.g., /api/predict/news)
+    # Register the API endpoints
     app.register_blueprint(api_blueprint, url_prefix='/api')
     
-    # A simple health-check route to verify the server is running
     @app.route('/', methods=['GET'])
     def home():
         return "AI Fraud Detector Backend is Running!", 200
         
     return app
 
-# Only run the server if this file is executed directly 
+# --- CRITICAL FIX FOR PRODUCTION DEPLOYMENT ---
+# Exposing 'app' at the root module level so Gunicorn can find it during import
+app = create_app()
+
+# This block is now strictly used ONLY for local manual testing
 if __name__ == '__main__':
-    app = create_app()
-    # debug=True allows the server to auto-restart when we save file changes.
-    # We run on port 5000, which matches the endpoint in our JS file.
-    print("\n[INFO] Starting API Server on http://127.0.0.1:5000")
+    print("\n[INFO] Starting API Server locally on http://127.0.0.1:5000")
     app.run(host='127.0.0.1', port=5000, debug=True)
