@@ -1,0 +1,64 @@
+/* CSS Variables for Easy Theming */
+:root {
+    --bg-color: #f8f9fa;
+    --text-color: #212529;
+    --card-bg: #ffffff;
+    --input-bg: #f8f9fa;
+    --border-color: #dee2e6;
+    --transition-speed: 0.3s;
+}
+
+/* Dark Mode Variables */
+.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --input-bg: #2d2d2d;
+    --border-color: #333333;
+}
+
+/* Global Styles */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Navbar */
+.custom-navbar {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color var(--transition-speed);
+}
+.custom-navbar .navbar-brand {
+    color: var(--text-color);
+}
+
+/* Cards */
+.feature-card, #result-section {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color) !important;
+    transition: background-color var(--transition-speed), transform 0.2s ease-in-out;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Inputs */
+.custom-input {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+.custom-input:focus {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Result Colors */
+.text-danger { color: #dc3545 !important; } /* Fake / Phishing */
+.text-success { color: #198754 !important; } /* Real / Safe */

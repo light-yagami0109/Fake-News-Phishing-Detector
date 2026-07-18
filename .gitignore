@@ -1,0 +1,14 @@
+# Python Environments
+venv/
+__pycache__/
+*.pyc
+
+# Machine Learning Artifacts
+*.pkl
+
+# Datasets
+datasets/*.csv
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
