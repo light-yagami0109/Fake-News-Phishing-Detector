@@ -4,7 +4,7 @@ __pycache__/
 *.pyc
 
 # Machine Learning Artifacts
-*.pkl
+# *.pkl
 
 # Datasets
 datasets/*.csv
