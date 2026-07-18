@@ -104,7 +104,14 @@ async function processPrediction(type, payload) {
     loadingSpinner.classList.remove('d-none');
 
     // Define the endpoint based on the type
-    const endpoint = type === 'news' ? 'http://127.0.0.1:5000/api/predict/news' : 'http://127.0.0.1:5000/api/predict/url';
+    
+    // Old Code (Local):
+    // const endpoint = type === 'news' ? 'http://127.0.0.1:5000/api/predict/news' : 'http://127.0.0.1:5000/api/predict/url';
+
+    // New Code (Production):
+    // Replace 'https://YOUR-RENDER-URL.onrender.com' with your actual Render link
+const baseURL = 'https://ai-fraud-backend-qxs0.onrender.com';
+const endpoint = type === 'news' ? `${baseURL}/api/predict/news` : `${baseURL}/api/predict/url`;
 
     try {
         // 2. Fetch API: Talk to the Python server (We will build this server in Chapter 4)
