@@ -24,7 +24,6 @@ By utilizing Natural Language Processing (NLP) and Random Forest feature extract
    git clone [https://github.com/YourUsername/Fake-News-Phishing-Detector.git](https://github.com/YourUsername/Fake-News-Phishing-Detector.git)
    cd Fake-News-Phishing-Detector
 
-```
 
 2. **Create a Virtual Environment**
 ```bash
