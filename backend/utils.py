@@ -2,6 +2,7 @@ import pickle
 import os
 import re
 import string
+import sys
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -62,12 +63,16 @@ def predict_news(text):
 def predict_phishing(url):
     if not phishing_model:
         return {"prediction": "Model Not Trained", "confidence": 0}
+   
     try:
-        import sys
-        ml_path = os.path.join(BASE_DIR, '../ml')
+        # 1. Uses a relative dynamic path (Works on Windows, Mac, and Linux/Render)
+        ml_path = os.path.abspath(os.path.join(BASE_DIR, '../ml'))
+        
         if ml_path not in sys.path:
             sys.path.append(ml_path)
-        from feature_extractor import extract_url_features
+            
+        # 2. Tells VS Code's Pylance to ignore the static warning here
+        from feature_extractor import extract_url_features  # type: ignore
         
         features = extract_url_features(url)
         prediction_value = phishing_model.predict([features])[0]
