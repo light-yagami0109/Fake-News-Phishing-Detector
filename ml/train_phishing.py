@@ -11,29 +11,25 @@ from feature_extractor import extract_url_features
 # ==========================================
 def load_and_prepare_data():
     print("[INFO] Loading Phishing Dataset...")
-    # Assuming dataset is named 'phishing_site_urls.csv' in the datasets folder
-    # We only read 50,000 rows to ensure the training completes in a reasonable time for students.
     try:
-        df = pd.read_csv(r'C:\Users\admin\Desktop\Fake-News-Phishing-Detector\datasets\phishing_site_urls.csv', nrows=50000)
+        # CRITICAL FIX: Read the whole file first, THEN shuffle and take 50,000.
+        # This guarantees a perfectly mixed balance of Safe and Phishing links.
+        df = pd.read_csv('../datasets/phishing_site_urls.csv')
+        df = df.sample(n=50000, random_state=42).reset_index(drop=True)
     except FileNotFoundError:
-        print("[ERROR] Dataset not found! Please place 'phishing_site_urls.csv' in the datasets folder.")
+        print("[ERROR] Dataset not found!")
         return None, None
         
     print("[INFO] Mapping text labels to binary numbers (good->0, bad->1)...")
-    # Convert 'good' to 0 (Safe) and 'bad' to 1 (Phishing)
     df['Label'] = df['Label'].map({'good': 0, 'bad': 1})
     
     print("[INFO] Extracting URL structural features (This will take a few minutes)...")
-    # Apply our custom extraction function to every URL in the dataset
-    # This creates a list of lists: [[f1, f2...], [f1, f2...]]
     extracted_features = df['URL'].apply(extract_url_features)
     
-    # Convert the list of lists into a clean pandas DataFrame (Matrix)
     X = pd.DataFrame(extracted_features.tolist(), columns=[
         'Has_IP', 'URL_Length', 'Is_Shortened', 'Has_At_Symbol', 
         'Has_Double_Slash', 'Has_Hyphen', 'Domain_Dots', 'HTTPS_in_Domain'
     ])
-    
     Y = df['Label']
     return X, Y
 
@@ -79,7 +75,7 @@ def train_model():
     # 4. Saving the Binary Artifact
     # ==========================================
     print("\n[INFO] Saving Phishing Model to disk...")
-    with open(r'C:\Users\admin\Desktop\Fake-News-Phishing-Detector\models\phishing_model.pkl', 'wb') as f:
+    with open('../models/phishing_model.pkl', 'wb') as f:
         pickle.dump(model, f)
         
     print("[SUCCESS] Phishing model training complete and saved.")
